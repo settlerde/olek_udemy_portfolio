@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "323288641025",
+    "project_id": "olek-udemy-portfolio",
+    "storage_bucket": "olek-udemy-portfolio.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323288641025:android:54fd0c0d713f731521da00",
+        "android_client_info": {
+          "package_name": "com.example.olek_udemy_portfolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIv7--bTrZocaESj0r-xsUI-2HJycIfU4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

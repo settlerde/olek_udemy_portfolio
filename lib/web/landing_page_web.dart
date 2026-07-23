@@ -16,7 +16,25 @@ class _LandingPageWebState extends State<LandingPageWeb> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: Drawer(),
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 72,
+              backgroundColor: Colors.blue,
+              child: CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.white,
+                backgroundImage: AssetImage(
+                  "assets/20260416_cdemy_DSC_1377_Lebenslauf.jpg",
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         elevation: 0.0,
@@ -105,7 +123,7 @@ class _LandingPageWebState extends State<LandingPageWeb> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset('web.jpg', height: heightDevice / 2.5),
+                Image.asset('assets/web.jpg', height: heightDevice / 1.9),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -176,19 +194,6 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           padding: EdgeInsets.all(10),
-                          child: Sans("Android", 21),
-                        ),
-                        SizedBox(width: 7),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.blue,
-                              style: BorderStyle.solid,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: EdgeInsets.all(10),
                           child: Sans("Ios", 21),
                         ),
                         SizedBox(width: 7),
@@ -213,28 +218,29 @@ class _LandingPageWebState extends State<LandingPageWeb> {
           ),
           // Third page
           Container(
-            height: heightDevice / 1.3,
+            height: heightDevice / 1.5,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SansBold("What I do?", 32),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     AnimatedCardWeb(
-                      imagePath: "web.jpg",
+                      imagePath: "assets/web.jpg",
                       text: "Web development",
                       fit: BoxFit.contain,
                       reverse: true,
                     ),
                     AnimatedCardWeb(
-                      imagePath: "app.png",
+                      imagePath: "assets/app.png",
                       text: "App development",
                       fit: BoxFit.contain,
                       reverse: false,
                     ),
                     AnimatedCardWeb(
-                      imagePath: "firebase.png",
+                      imagePath: "assets/firebase.png",
                       text: "Back-end development",
                       fit: BoxFit.contain,
                       reverse: true,

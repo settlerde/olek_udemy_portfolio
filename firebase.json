@@ -1,0 +1,37 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "olek-udemy-portfolio",
+          "appId": "1:323288641025:android:54fd0c0d713f731521da00",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "olek-udemy-portfolio",
+          "configurations": {
+            "android": "1:323288641025:android:54fd0c0d713f731521da00",
+            "ios": "1:323288641025:ios:407214ae348cd21121da00",
+            "web": "1:323288641025:web:e80ccc2f439396ae21da00"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

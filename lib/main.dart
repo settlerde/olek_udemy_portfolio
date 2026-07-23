@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:olek_udemy_portfolio/mobile/landing_page_mobile.dart';
 import 'package:olek_udemy_portfolio/web/landing_page_web.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart'; // Importiert deine frisch erstellte Datei
 
-void main() {
+void main() async {
+  // Stellt sicher, dass die Flutter-Engine bereit ist
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Firebase mit den eben erstellten Optionen starten
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MyApp());
 }
 
