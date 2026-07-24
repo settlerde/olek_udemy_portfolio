@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxHeight > 800) {
+          if (constraints.maxWidth > 800) {
             return LandingPageWeb();
           } else {
             return LandingPageMobile();
