@@ -36,7 +36,7 @@ class _TabsWebState extends State<TabsWeb> {
                 shadows: [Shadow(color: Colors.white, offset: Offset(0, -5))],
                 fontSize: 25.0,
               )
-            : GoogleFonts.oswald(fontSize: 23.0),
+            : GoogleFonts.oswald(fontSize: 21.0),
         child: Text(widget.title),
       ),
     );

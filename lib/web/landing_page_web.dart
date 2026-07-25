@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:olek_udemy_portfolio/components.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LandingPageWeb extends StatefulWidget {
-  const LandingPageWeb({super.key});
+  LandingPageWeb({super.key});
 
   @override
   State<LandingPageWeb> createState() => _LandingPageWebState();
 }
 
 class _LandingPageWebState extends State<LandingPageWeb> {
+  urlLauncher(String imgPath, String url) {
+    return IconButton(
+      icon: SvgPicture.asset(imgPath, width: 32),
+      onPressed: () {
+        launchUrl(Uri.parse(url));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var heightDevice = MediaQuery.of(context).size.height;
@@ -21,6 +33,20 @@ class _LandingPageWebState extends State<LandingPageWeb> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // hier begint den Button Code
+            MaterialButton(
+              onPressed: () {
+                context.go("/mobile");
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => LandingPageMobile()),
+                // );
+                // Navigator.of(context).pushNamed('/mobile');
+              },
+              color: Colors.blue,
+              child: Text("Go to..."),
+            ),
+            SizedBox(height: 15),
             CircleAvatar(
               radius: 72,
               backgroundColor: Colors.blue,
@@ -32,13 +58,30 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                 ),
               ),
             ),
+            SizedBox(height: 15),
+            SansBold("Olek Mehl", 32),
+            SizedBox(height: 15),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                urlLauncher(
+                  "assets/instagram.svg",
+                  'https://www.instagram.com/accounts/login/',
+                ),
+                urlLauncher(
+                  "assets/github.svg",
+                  "https://github.com/settlerde",
+                ),
+              ],
+            ),
           ],
         ),
       ),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         elevation: 0.0,
-        iconTheme: IconThemeData(size: 25.0),
+        iconTheme: IconThemeData(size: 21.0),
         title: Row(
           children: [
             Spacer(flex: 2),
