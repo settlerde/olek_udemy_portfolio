@@ -85,15 +85,15 @@ class _LandingPageWebState extends State<LandingPageWeb> {
         title: Row(
           children: [
             Spacer(flex: 2),
-            TabsWeb('Home'),
+            TabsWeb(title: 'Home', route: '/'),
             Spacer(),
-            TabsWeb('Works'),
+            TabsWeb(title: 'Works', route: '/works'),
             Spacer(),
-            TabsWeb('Blog'),
+            TabsWeb(title: 'Blog', route: '/blog'),
             Spacer(),
-            TabsWeb('About'),
+            TabsWeb(title: 'About me', route: '/about'),
             Spacer(),
-            TabsWeb('Contact'),
+            TabsWeb(title: 'Contact me', route: '/contact'),
             Spacer(),
           ],
         ),
@@ -270,19 +270,19 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    AnimatedCardWeb(
+                    AnimatedCard(
                       imagePath: "assets/web.jpg",
                       text: "Web development",
                       fit: BoxFit.contain,
                       reverse: true,
                     ),
-                    AnimatedCardWeb(
+                    AnimatedCard(
                       imagePath: "assets/app.png",
                       text: "App development",
                       fit: BoxFit.contain,
                       reverse: false,
                     ),
-                    AnimatedCardWeb(
+                    AnimatedCard(
                       imagePath: "assets/firebase.png",
                       text: "Back-end development",
                       fit: BoxFit.contain,
