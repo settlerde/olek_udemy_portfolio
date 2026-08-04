@@ -173,17 +173,25 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                   children: [
                     SansBold("About me", 32),
                     SizedBox(height: 15),
-                    Sans(
-                      "Hi! I'm Olek Mehl I specialize in Flutter wich runs its Apps on all platforms.,",
-                      21,
-                    ),
-                    Sans(
-                      "I would write for your business or you a personal App as well as a website,",
-                      21,
-                    ),
-                    Sans(
-                      "so it's gonna be not only nice and functional, but safe.",
-                      21,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(padding: EdgeInsetsGeometry.only(right: 15)),
+                        Sans(
+                          "Hi! I'm Olek Mehl I specialize in Flutter wich runs its Apps on all platforms.",
+                          21,
+                        ),
+
+                        Sans(
+                          "I would write for your business or you a personal App as well as a website,",
+                          21,
+                        ),
+                        Sans(
+                          "so it's gonna be not only nice and functional, but safe.",
+                          21,
+                        ),
+                      ],
                     ),
                     SizedBox(height: 10),
                     Row(

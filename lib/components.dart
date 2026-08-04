@@ -188,12 +188,6 @@ class _AnimatedCardState extends State<AnimatedCard>
     end: widget.reverse == true ? Offset.zero : Offset(0, 0.08),
   ).animate(_controller);
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _controller = AnimationController(vsync: this);
-  // }
-
   @override
   void dispose() {
     _controller.dispose();
