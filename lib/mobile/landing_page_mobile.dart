@@ -245,7 +245,7 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
                     TextForm(
                       heading: "Phone number",
                       hintText: "Please enter your phone number",
-                      width: 350,
+                      width: widthDevice / 1.4,
                     ),
                     SizedBox(height: 15),
                     TextForm(
