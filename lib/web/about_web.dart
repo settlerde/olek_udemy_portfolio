@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:olek_udemy_portfolio/components.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:olek_udemy_portfolio/content.dart';
+import 'package:olek_udemy_portfolio/theme.dart';
 
 class AboutWeb extends StatefulWidget {
   const AboutWeb({super.key});
@@ -15,98 +14,43 @@ class AboutWeb extends StatefulWidget {
 class _AboutWebState extends State<AboutWeb> {
   @override
   Widget build(BuildContext context) {
-    urlLauncher(String imgPath, String url) {
-      return IconButton(
-        icon: SvgPicture.asset(imgPath, width: 32),
-        onPressed: () {
-          launchUrl(Uri.parse(url));
-        },
-      );
-    }
-
-    blueContainer(String text) {
-      return Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.blue,
-            style: BorderStyle.solid,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        padding: EdgeInsets.all(10),
-        child: Text(text, style: GoogleFonts.openSans(fontSize: 15)),
-      );
-    }
-
-    var widthDevice = MediaQuery.of(context).size.width;
+    final widthDevice = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       drawer: Drawer(
-        backgroundColor: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // hier begint den Button Code
-            MaterialButton(
-              onPressed: () {
-                context.go("/mobile");
-              },
-              color: Colors.blue,
-              child: Text("Go to..."),
-            ),
-            SizedBox(height: 15),
             CircleAvatar(
               radius: 72,
-              backgroundColor: Colors.blue,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundColor: Colors.white,
-                backgroundImage: AssetImage(
-                  "assets/20260416_cdemy_DSC_1377_Lebenslauf.jpg",
-                ),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: const CircleAvatar(
+                radius: 68,
+                backgroundImage: AssetImage(Profile.avatar),
               ),
             ),
-            SizedBox(height: 15),
-            SansBold("Olek Mehl", 32),
-            SizedBox(height: 15),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                urlLauncher(
-                  "assets/instagram.svg",
-                  'https://www.instagram.com/accounts/login/',
-                ),
-                urlLauncher(
-                  "assets/github.svg",
-                  "https://github.com/settlerde",
-                ),
-              ],
+            const SizedBox(height: 16),
+            SansBold(Profile.name, 28),
+            const SizedBox(height: 16),
+            const SocialLinks(
+              instagramUrl: Profile.instagram,
+              githubUrl: Profile.github,
             ),
           ],
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        elevation: 0.0,
-        iconTheme: IconThemeData(size: 21.0),
-        title: Row(
-          children: [
-            Spacer(flex: 2),
-            TabsWeb(title: 'Home', route: '/'),
-            Spacer(),
-            TabsWeb(title: 'Works', route: '/works'),
-            Spacer(),
-            TabsWeb(title: 'Blog', route: '/blog'),
-            Spacer(),
-            TabsWeb(title: 'About me', route: '/about'),
-            Spacer(),
-            TabsWeb(title: 'Contact me', route: '/contact'),
-            Spacer(),
-          ],
-        ),
+        title: SansBold(Profile.name, 20),
+        actions: const [
+          TabsWeb(title: 'Home', route: '/'),
+          SizedBox(width: 8),
+          TabsWeb(title: 'About me', route: '/about'),
+          SizedBox(width: 8),
+          TabsWeb(title: 'Contact me', route: '/contact'),
+          SizedBox(width: 8),
+          ThemeToggleButton(),
+          SizedBox(width: 16),
+        ],
       ),
       body: ListView(
         children: [
@@ -136,29 +80,24 @@ class _AboutWebState extends State<AboutWeb> {
                       15,
                     ),
                     SizedBox(height: 15),
-                    Row(
-                      children: [
-                        blueContainer("Flutter"),
-                        SizedBox(width: 15),
-                        blueContainer("Android"),
-                        SizedBox(width: 15),
-                        blueContainer("Ios"),
-                        SizedBox(width: 15),
-                        blueContainer("Windows"),
-                        SizedBox(width: 15),
-                        blueContainer("Firebase"),
-                      ],
+                    SizedBox(
+                      width: 520,
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: [
+                          for (final skill in Profile.skills) SkillChip(skill),
+                        ],
+                      ),
                     ),
                   ],
                 ),
                 CircleAvatar(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   radius: 143,
-                  child: CircleAvatar(
-                    radius: 140,
-                    backgroundImage: AssetImage(
-                      'assets/20260416_cdemy_DSC_1377_Lebenslauf.jpg',
-                    ),
+                  child: const CircleAvatar(
+                    radius: 138,
+                    backgroundImage: AssetImage(Profile.avatar),
                   ),
                 ),
               ],
