@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:olek_udemy_portfolio/components.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:olek_udemy_portfolio/contact_form.dart';
+import 'package:olek_udemy_portfolio/content.dart';
+import 'package:olek_udemy_portfolio/theme.dart';
 
 class ContactWeb extends StatefulWidget {
   const ContactWeb({super.key});
@@ -13,7 +15,7 @@ class ContactWeb extends StatefulWidget {
 class _ContactWebState extends State<ContactWeb> {
   @override
   Widget build(BuildContext context) {
-    var widthDevice = MediaQuery.of(context).size.width;
+    final widthDevice = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: Drawer(
         child: Column(
@@ -21,37 +23,18 @@ class _ContactWebState extends State<ContactWeb> {
           children: [
             CircleAvatar(
               radius: 72,
-              backgroundColor: Colors.blue,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundImage: AssetImage(
-                  "assets/20260416_cdemy_DSC_1377_Lebenslauf.jpg",
-                ),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: const CircleAvatar(
+                radius: 68,
+                backgroundImage: AssetImage(Profile.avatar),
               ),
             ),
-            SizedBox(height: 15),
-            SansBold("Olek Mehl", 30),
-            SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  onPressed: () async {
-                    await launchUrlString(
-                      "https://console.firebase.google.com/",
-                    );
-                  },
-                  icon: SvgPicture.asset("assets/instagram.svg", width: 30),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    await launchUrlString(
-                      "https://github.com/settlerde/olek_udemy_portfolio",
-                    );
-                  },
-                  icon: SvgPicture.asset("assets/github.svg", width: 30),
-                ),
-              ],
+            const SizedBox(height: 16),
+            SansBold(Profile.name, 28),
+            const SizedBox(height: 16),
+            const SocialLinks(
+              instagramUrl: Profile.instagram,
+              githubUrl: Profile.github,
             ),
           ],
         ),
@@ -69,85 +52,40 @@ class _ContactWebState extends State<ContactWeb> {
                   filterQuality: FilterQuality.high,
                 ),
               ),
-              title: Row(
-                children: [
-                  Spacer(flex: 3),
-                  TabsWeb(title: "Home", route: '/'),
-                  Spacer(),
-                  TabsWeb(title: "Works", route: '/works'),
-                  Spacer(),
-                  TabsWeb(title: "Blog", route: '/blog'),
-                  Spacer(),
-                  TabsWeb(title: "About me", route: '/about'),
-                  Spacer(),
-                  TabsWeb(title: "Contact", route: '/contact'),
-                  Spacer(),
-                ],
-              ),
+              title: SansBold(Profile.name, 20, color: Colors.white),
+              actions: const [
+                TabsWeb(title: 'Home', route: '/'),
+                SizedBox(width: 8),
+                TabsWeb(title: 'About me', route: '/about'),
+                SizedBox(width: 8),
+                TabsWeb(title: 'Contact', route: '/contact'),
+                SizedBox(width: 8),
+                ThemeToggleButton(),
+                SizedBox(width: 16),
+              ],
             ),
           ];
         },
         body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
           child: Column(
             children: [
-              SizedBox(height: 15),
-              SansBold("Contact me", 30),
-              SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      TextForm(
-                        heading: "First name",
-                        hintText: "Enter your first name",
-                        width: 300,
-                      ),
-                      SizedBox(height: 15),
-                      TextForm(
-                        heading: "Mobile",
-                        hintText: "Enter your mobile number",
-                        width: 300,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      TextForm(
-                        heading: "Last name",
-                        hintText: "Enter your last name",
-                        width: 300,
-                      ),
-                      SizedBox(height: 15),
-                      TextForm(
-                        heading: "E-mail",
-                        hintText: "Enter your e-mail",
-                        width: 300,
-                      ),
-                    ],
-                  ),
-                ],
+              const SectionTitle(
+                'Contact me',
+                subtitle:
+                    'Tell me about your project and I will get back to you within a day.',
               ),
-              SizedBox(height: 15),
-              TextForm(
-                maxLines: 10,
-                heading: "Message",
-                hintText: "Write your messag",
-                width: widthDevice / 1.6,
+              const SizedBox(height: 32),
+              ContactForm(
+                fieldWidth: widthDevice > 900 ? 380 : widthDevice / 1.4,
+                twoColumns: widthDevice > 900,
               ),
-              SizedBox(height: 30),
-              MaterialButton(
-                child: SansBold("Submit", 20),
-                onPressed: () {},
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.circular(10),
-                ),
-                height: 60,
-                minWidth: 200,
-                color: Colors.blue,
+              const SizedBox(height: 32),
+              const SocialLinks(
+                instagramUrl: Profile.instagram,
+                githubUrl: Profile.github,
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
             ],
           ),
         ),

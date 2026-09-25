@@ -1,284 +1,288 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:olek_udemy_portfolio/components.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:olek_udemy_portfolio/contact_form.dart';
+import 'package:olek_udemy_portfolio/content.dart';
+import 'package:olek_udemy_portfolio/theme.dart';
 
 class LandingPageMobile extends StatefulWidget {
-  final text;
-  const LandingPageMobile({super.key, required this.text});
+  const LandingPageMobile({super.key});
 
   @override
   State<LandingPageMobile> createState() => _LandingPageMobileState();
 }
 
 class _LandingPageMobileState extends State<LandingPageMobile> {
-  double? heightDevice;
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _homeKey = GlobalKey();
+  final GlobalKey _aboutKey = GlobalKey();
+  final GlobalKey _servicesKey = GlobalKey();
+  final GlobalKey _worksKey = GlobalKey();
+  final GlobalKey _contactKey = GlobalKey();
 
-  blueContainer(String text) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.blue,
-          style: BorderStyle.solid,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      padding: EdgeInsets.all(10),
-      child: Text(text, style: GoogleFonts.openSans(fontSize: 15)),
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollTo(GlobalKey key) {
+    final context = key.currentContext;
+    if (context == null) return;
+    Scrollable.ensureVisible(
+      context,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeOutCubic,
+      alignment: 0.05,
     );
   }
 
+  Map<String, GlobalKey> get _sections => <String, GlobalKey>{
+    'Home': _homeKey,
+    'About': _aboutKey,
+    'Services': _servicesKey,
+    'Works': _worksKey,
+    'Contact': _contactKey,
+  };
+
   @override
   Widget build(BuildContext context) {
-    var widthDevice = MediaQuery.of(context).size.width;
+    final scheme = Theme.of(context).colorScheme;
+    final width = MediaQuery.of(context).size.width;
+    final fieldWidth = (width - 48).clamp(220.0, 420.0);
+
     return Scaffold(
-      // backgroundColor: Colors.blue,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        iconTheme: IconThemeData(size: 35),
+        title: SansBold(Profile.name, 18),
+        actions: const [ThemeToggleButton()],
       ),
       endDrawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 48),
           children: [
-            DrawerHeader(
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 2, color: Colors.blue),
-                ),
-                child: CircleAvatar(
+            Center(
+              child: CircleAvatar(
+                radius: 64,
+                backgroundColor: scheme.primary,
+                child: const CircleAvatar(
                   radius: 60,
-                  backgroundImage: AssetImage(
-                    "assets/20260416_cdemy_DSC_1377_Lebenslauf.jpg",
-                  ),
+                  backgroundImage: AssetImage(Profile.avatar),
                 ),
               ),
-              padding: EdgeInsetsGeometry.only(bottom: 20),
             ),
-            TabsMobile(text: "Home", route: '/'),
-            SizedBox(height: 15),
-            TabsMobile(text: "Works", route: '/works'),
-            SizedBox(height: 15),
-            TabsMobile(text: "Blog", route: '/blog'),
-            SizedBox(height: 15),
-            TabsMobile(text: "About", route: '/about'),
-            SizedBox(height: 15),
-            TabsMobile(text: "Contact", route: '/contact'),
-            SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  onPressed: () async {
-                    await launchUrlString("https://www.instagram.com/");
+            const SizedBox(height: 16),
+            Center(child: SansBold(Profile.name, 22)),
+            Center(child: Sans(Profile.role, 15)),
+            const SizedBox(height: 24),
+            for (final section in _sections.entries) ...[
+              Center(
+                child: TabsMobile(
+                  text: section.key,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _scrollTo(section.value);
                   },
-                  icon: SvgPicture.asset("assets/instagram.svg", height: 35),
                 ),
-                IconButton(
-                  onPressed: () async {
-                    await launchUrlString("https://github.com/repos");
-                  },
-                  icon: SvgPicture.asset("assets/github.svg", height: 35),
-                ),
-              ],
+              ),
+              const SizedBox(height: 12),
+            ],
+            const SizedBox(height: 12),
+            const SocialLinks(
+              instagramUrl: Profile.instagram,
+              githubUrl: Profile.github,
             ),
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          // intro first section
-          Padding(
-            padding: const EdgeInsetsGeometry.only(left: 15),
-            child: CircleAvatar(
-              radius: 115,
-              backgroundColor: Colors.blue,
-              child: CircleAvatar(
-                radius: 110,
-                backgroundImage: AssetImage(
-                  "assets/20260416_cdemy_DSC_1378_Lebenslauf.jpg",
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                    topRight: Radius.circular(20),
+      floatingActionButton: ScrollToTopButton(controller: _scrollController),
+      body: SingleChildScrollView(
+        controller: _scrollController,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Intro
+            Column(
+              key: _homeKey,
+              children: [
+                CircleAvatar(
+                  radius: 104,
+                  backgroundColor: scheme.primary,
+                  child: const CircleAvatar(
+                    radius: 100,
+                    backgroundImage: AssetImage(Profile.avatarAlt),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: SansBold("Hello I'm", 15),
-              ),
-              SansBold("Olek Mehl", 30),
-              Sans("Flutter developer", 20),
-            ],
-          ),
-          SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Wrap(
-                direction: Axis.vertical,
-                spacing: 3,
-                children: [
-                  Icon(Icons.email),
-                  Icon(Icons.call),
-                  Icon(Icons.location_pin),
-                ],
-              ),
-              SizedBox(width: 20),
-              Wrap(
-                direction: Axis.vertical,
-                spacing: 9,
-                children: [
-                  Sans("olekmehl@gmail.com", 15),
-                  Sans("123456789", 15),
-                  Sans("Vellmar 34246", 15),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 90),
-
-          // About me second section
-          Padding(
-            padding: EdgeInsetsGeometry.only(left: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SansBold("About me", 30),
-                Sans(
-                  " Hello, I'm Olek Mehl and I specialize in Flutter development",
-                  15,
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: scheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Sans(
+                    "Hello, I'm",
+                    14,
+                    color: scheme.onPrimaryContainer,
+                  ),
                 ),
+                const SizedBox(height: 8),
+                SansBold(Profile.name, 28, align: TextAlign.center),
+                Sans(Profile.role, 18, color: scheme.primary),
+                const SizedBox(height: 12),
                 Sans(
-                  "bla bla bla und bla bla bla and bla bla bla oder bla bla bla no problem! \n",
+                  Profile.tagline,
                   15,
+                  align: TextAlign.center,
+                  color: scheme.onSurfaceVariant,
                 ),
-                Sans(
-                  "...secutity for Android, Ios, Web, Mac, Linux, and you",
-                  15,
+                const SizedBox(height: 20),
+                ContactLine(
+                  icon: Icons.email_outlined,
+                  text: Profile.email,
+                  uri: Uri(scheme: 'mailto', path: Profile.email),
+                  size: 15,
                 ),
-                SizedBox(height: 15),
+                ContactLine(
+                  icon: Icons.call_outlined,
+                  text: Profile.phone,
+                  uri: Uri(
+                    scheme: 'tel',
+                    path: Profile.phone.replaceAll(' ', ''),
+                  ),
+                  size: 15,
+                ),
+                ContactLine(
+                  icon: Icons.location_pin,
+                  text: Profile.location,
+                  uri: Uri.parse(
+                    'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(Profile.location)}',
+                  ),
+                  size: 15,
+                ),
+                const SizedBox(height: 20),
                 Wrap(
-                  spacing: 10,
+                  spacing: 12,
                   runSpacing: 12,
+                  alignment: WrapAlignment.center,
                   children: [
-                    blueContainer("Flutter"),
-                    blueContainer("Firebase"),
-                    blueContainer("Android"),
-                    blueContainer("Windows"),
+                    FilledButton.icon(
+                      onPressed: () => _scrollTo(_contactKey),
+                      icon: const Icon(Icons.chat_bubble_outline),
+                      label: const Text('Hire me'),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: () => _scrollTo(_worksKey),
+                      icon: const Icon(Icons.work_outline),
+                      label: const Text('See my work'),
+                    ),
                   ],
                 ),
               ],
             ),
-          ),
-          SizedBox(height: 50),
+            const SizedBox(height: 72),
 
-          // third section _ What I do
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SansBold("What I do?", 30),
-              AnimatedCard(
-                imagePath: "assets/webL.png",
-                text: "Web development",
-                width: 200,
-                height: 150,
-              ),
-              SizedBox(height: 30),
-              AnimatedCard(
-                imagePath: "assets/firebase.png",
-                text: "Backend development",
-                width: 200,
-                height: 150,
-              ),
-              SizedBox(height: 30),
-              AnimatedCard(
-                imagePath: "assets/app.png",
-                text: "App development",
-                width: 200,
-                height: 150,
-              ),
-            ],
-          ),
-          SizedBox(height: 30),
-
-          // Forth section _ Contact
-          Wrap(
-            alignment: WrapAlignment.center,
-            runSpacing: 20,
-            spacing: 20,
-            children: [
-              SansBold("Contact me", 30),
-              Container(
-                height: heightDevice,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // About
+            Column(
+              key: _aboutKey,
+              children: [
+                const SectionTitle('About me'),
+                const SizedBox(height: 20),
+                Sans(
+                  'I specialize in Flutter, which lets one codebase run on Android, iOS, '
+                  'web and desktop. I care about clean architecture, performance and security.',
+                  15,
+                  align: TextAlign.center,
+                  color: scheme.onSurfaceVariant,
+                ),
+                const SizedBox(height: 20),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  alignment: WrapAlignment.center,
                   children: [
-                    TextForm(
-                      width: widthDevice / 1.4,
-                      heading: "First name",
-                      hintText: "Please type your first name",
-                      maxLines: 1,
-                    ),
-                    SizedBox(height: 15),
-                    TextForm(
-                      heading: "Last name",
-                      hintText: "Please type your last name",
-                      width: widthDevice / 1.4,
-                    ),
-                    SizedBox(height: 15),
-                    TextForm(
-                      heading: "Phone number",
-                      hintText: "Please enter your phone number",
-                      width: widthDevice / 1.4,
-                    ),
-                    SizedBox(height: 15),
-                    TextForm(
-                      heading: "Email",
-                      hintText: "Enter your Email",
-                      width: widthDevice / 1.4,
-                    ),
-                    SizedBox(height: 15),
-                    TextForm(
-                      heading: "Message",
-                      hintText: "Write your message",
-                      width: widthDevice / 1.4,
-                      maxLines: 5,
-                    ),
-                    SizedBox(height: 30),
-                    MaterialButton(
-                      child: SansBold("Submit", 21),
-                      onPressed: () {},
-                      elevation: 20.0,
-                      color: Colors.blue,
-                      height: 50,
-                      minWidth: 150,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(10),
-                      ),
-                    ),
+                    for (final skill in Profile.skills) SkillChip(skill),
                   ],
                 ),
+              ],
+            ),
+            const SizedBox(height: 72),
+
+            // Services
+            Column(
+              key: _servicesKey,
+              children: [
+                const SectionTitle('What I do'),
+                const SizedBox(height: 24),
+                for (final service in services) ...[
+                  AnimatedCard(
+                    imagePath: service.imagePath,
+                    text: service.title,
+                    description: service.description,
+                    width: 220,
+                    height: 140,
+                    reverse: services.indexOf(service).isEven,
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ],
+            ),
+            const SizedBox(height: 48),
+
+            // Works
+            Column(
+              key: _worksKey,
+              children: [
+                const SectionTitle('Selected works'),
+                const SizedBox(height: 24),
+                Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    for (final project in projects)
+                      ProjectCard(
+                        title: project.title,
+                        description: project.description,
+                        imagePath: project.imagePath,
+                        tags: project.tags,
+                        url: project.url,
+                        width: fieldWidth,
+                      ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 72),
+
+            // Contact
+            Column(
+              key: _contactKey,
+              children: [
+                const SectionTitle('Contact me'),
+                const SizedBox(height: 24),
+                ContactForm(fieldWidth: fieldWidth, twoColumns: false),
+                const SizedBox(height: 24),
+                const SocialLinks(
+                  instagramUrl: Profile.instagram,
+                  githubUrl: Profile.github,
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Center(
+              child: Sans(
+                '© ${DateTime.now().year} ${Profile.name}',
+                13,
+                color: scheme.onSurfaceVariant,
               ),
-            ],
-          ),
-          SizedBox(height: 30),
-        ],
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
       ),
     );
   }
