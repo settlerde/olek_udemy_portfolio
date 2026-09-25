@@ -64,46 +64,55 @@ class _LandingPageWebState extends State<LandingPageWeb> {
           const SizedBox(width: 16),
         ],
       ),
-      body: ListView(
+      body: SingleChildScrollView(
         controller: _scrollController,
-        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 40),
-        children: [
-          _Hero(
-            key: _homeKey,
-            onContact: () => _scrollTo(_contactKey),
-            onWorks: () => _scrollTo(_worksKey),
-          ),
-          const SizedBox(height: 100),
-          _About(key: _aboutKey),
-          const SizedBox(height: 100),
-          _Services(key: _servicesKey),
-          const SizedBox(height: 100),
-          _Works(key: _worksKey),
-          const SizedBox(height: 100),
-          _Contact(key: _contactKey, maxWidth: size.width - horizontalPadding * 2),
-          const SizedBox(height: 60),
-          Divider(color: scheme.outlineVariant),
-          const SizedBox(height: 20),
-          Center(
-            child: Sans(
-              '© ${DateTime.now().year} ${Profile.name} · Built with Flutter',
-              14,
-              color: scheme.onSurfaceVariant,
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding,
+          vertical: 40,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _Hero(
+              key: _homeKey,
+              onContact: () => _scrollTo(_contactKey),
+              onWorks: () => _scrollTo(_worksKey),
             ),
-          ),
-          const SizedBox(height: 40),
-        ],
+            const SizedBox(height: 100),
+            _About(key: _aboutKey),
+            const SizedBox(height: 100),
+            _Services(key: _servicesKey),
+            const SizedBox(height: 100),
+            _Works(key: _worksKey),
+            const SizedBox(height: 100),
+            _Contact(
+              key: _contactKey,
+              maxWidth: size.width - horizontalPadding * 2,
+            ),
+            const SizedBox(height: 60),
+            Divider(color: scheme.outlineVariant),
+            const SizedBox(height: 20),
+            Center(
+              child: Sans(
+                '© ${DateTime.now().year} ${Profile.name} · Built with Flutter',
+                14,
+                color: scheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 40),
+          ],
+        ),
       ),
     );
   }
 
   Map<String, GlobalKey> get _sections => <String, GlobalKey>{
-        'Home': _homeKey,
-        'About': _aboutKey,
-        'Services': _servicesKey,
-        'Works': _worksKey,
-        'Contact': _contactKey,
-      };
+    'Home': _homeKey,
+    'About': _aboutKey,
+    'Services': _servicesKey,
+    'Works': _worksKey,
+    'Contact': _contactKey,
+  };
 }
 
 class _SideDrawer extends StatelessWidget {
@@ -173,7 +182,10 @@ class _Hero extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: scheme.primaryContainer,
                   borderRadius: BorderRadius.circular(999),
@@ -194,7 +206,10 @@ class _Hero extends StatelessWidget {
               ContactLine(
                 icon: Icons.call_outlined,
                 text: Profile.phone,
-                uri: Uri(scheme: 'tel', path: Profile.phone.replaceAll(' ', '')),
+                uri: Uri(
+                  scheme: 'tel',
+                  path: Profile.phone.replaceAll(' ', ''),
+                ),
               ),
               ContactLine(
                 icon: Icons.location_pin,
@@ -318,7 +333,8 @@ class _Services extends StatelessWidget {
       children: [
         const SectionTitle(
           'What I do',
-          subtitle: 'From the first wireframe to the deployed app on your domain or store.',
+          subtitle:
+              'From the first wireframe to the deployed app on your domain or store.',
         ),
         const SizedBox(height: 48),
         Wrap(
@@ -349,7 +365,8 @@ class _Works extends StatelessWidget {
       children: [
         const SectionTitle(
           'Selected works',
-          subtitle: 'A few projects I built while learning and working with Flutter and Dart.',
+          subtitle:
+              'A few projects I built while learning and working with Flutter and Dart.',
         ),
         const SizedBox(height: 48),
         Wrap(
@@ -384,7 +401,8 @@ class _Contact extends StatelessWidget {
       children: [
         const SectionTitle(
           'Contact me',
-          subtitle: 'Tell me about your project and I will get back to you within a day.',
+          subtitle:
+              'Tell me about your project and I will get back to you within a day.',
         ),
         const SizedBox(height: 40),
         ContactForm(fieldWidth: fieldWidth, twoColumns: maxWidth > 900),
