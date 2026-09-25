@@ -118,8 +118,20 @@ class _ContactFormState extends State<ContactForm> {
       ..clearSnackBars()
       ..showSnackBar(
         SnackBar(
-          content: Text(message),
-          backgroundColor: isError ? scheme.errorContainer : scheme.primaryContainer,
+          content: Text(
+            message,
+            style: TextStyle(
+              color: isError
+                  ? scheme.onErrorContainer
+                  : scheme.onPrimaryContainer,
+            ),
+          ),
+          backgroundColor: isError
+              ? scheme.errorContainer
+              : scheme.primaryContainer,
+          closeIconColor: isError
+              ? scheme.onErrorContainer
+              : scheme.onPrimaryContainer,
           showCloseIcon: true,
         ),
       );
